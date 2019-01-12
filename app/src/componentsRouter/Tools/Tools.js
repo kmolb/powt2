@@ -1,31 +1,32 @@
 import React, { Component } from 'react';
+import './Tools.css';
 
 const matchMobile = (WrappedComponent) => {
   return class extends Component {
     constructor(props){
       super(props)
       this.state = {
-        width: window.innerWidth,
+       offsetY: null,
       }
     }
    
   
    componentDidMount(){
-     window.addEventListener('resize', () => {
+     window.addEventListener('mousemove', ({ offsetY}) => {
      this.setState({
-       width: window.innerWidth,
+     offsetY,
      });
      })
    }
 
-   isMobile(){
-    return this.state.width < 700;
+   isTop(){
+    return this.state.offsetY < 300;
    }
 
    render(){
    return<div>{
-     this.isMobile() &&
-    <WrappedComponent type="primary">
+     
+    <WrappedComponent type={this.isTop()}>
       {this.props.children}
     </WrappedComponent>
       }</div>
@@ -34,8 +35,9 @@ const matchMobile = (WrappedComponent) => {
 }
 
 const Button = (props) => {
-  return <div>
-  <div>{props.type}</div>
+  const {type} = props
+  return <div className={type ? 'ButtonRed' : 'ButtonGreen'}>
+  <div>{type}</div>
   <div> {props.children}</div>
  </div>
 };

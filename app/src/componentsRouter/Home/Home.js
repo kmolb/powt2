@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const SW_URL = 'https://swapi.co/api/people/?search=r2'
+const SW_URL = 'https://swapi.co/api/people/?search='
 
 class Home extends Component {  
   constructor(props){
@@ -8,21 +8,23 @@ class Home extends Component {
 
     this.state = {
       isLoading: true,
-      data: null,
+      data: false,
       search: '',
     }
   }
 
   componentDidMount(){
-   this.fetchData();
+   this.fetchData('');
   }
 
-  fetchData = () => {
+  fetchData = (search = '') => {
     this.setState({
       isLoading: true,
+      data: null,
     })
 
-    fetch(SW_URL)
+    fetch(SW_URL + search)
+     
     .then((resp) => resp.json())
     .then((resp) => {
       this.setState({
@@ -37,6 +39,8 @@ class Home extends Component {
 
     this.setState({
       [name]: value,
+    }, () => {
+      this.fetchData(value);
     })
   }
 
@@ -48,7 +52,7 @@ class Home extends Component {
         <input name="search" type="text" value={search} onChange={this.handleChange}/>
       </form>
       {isLoading && <div>Loading</div>}
-      {data && data.results.map((person) => {
+      {data && data.results && data.results.map((person) => {
         return <div> 
           {person.name},
           

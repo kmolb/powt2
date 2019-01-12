@@ -3,6 +3,7 @@ import './App.css';
 
 import NavBar from './../NavBar';
 import Home from './../Home';
+import Tools from './../Tools';
 import Contact from './../Contact';
 import Users from './../Users';
 import Footer from './../Footer';
@@ -16,6 +17,7 @@ class App extends Component {
         <Fragment>
           <Route path="/" component={NavBar} />
           <Route path="/" exact component={Home} />
+          <Route path="/tools" exact component={Tools} />
           <Route path="/contact" component={Contact} />
           <Route path="/users/:userId?" component={Users} />
           <Route path="/" component={Footer} />

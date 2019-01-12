@@ -1,13 +1,36 @@
 import React, { Component } from 'react';
 
-const HOComponent = (WrappedComponent) => {
-  return (props) => {
-    return <div className="hoc">
+const matchMobile = (WrappedComponent) => {
+  return class extends Component {
+    constructor(props){
+      super(props)
+      this.state = {
+        width: window.innerWidth,
+      }
+    }
+   
+  
+   componentDidMount(){
+     window.addEventListener('resize', () => {
+     this.setState({
+       width: window.innerWidth,
+     });
+     })
+   }
+
+   isMobile(){
+    return this.state.width < 700;
+   }
+
+   render(){
+   return<div>{
+     this.isMobile() &&
     <WrappedComponent type="primary">
-      {props.children}
+      {this.props.children}
     </WrappedComponent>
-  </div>
-}
+      }</div>
+    } 
+  }
 }
 
 const Button = (props) => {
@@ -17,11 +40,11 @@ const Button = (props) => {
  </div>
 };
 
-const PrimaryButton = HOComponent(Button)
+const MobileButton = matchMobile(Button)
 
 class Tools extends Component {
   render() {
-    return <PrimaryButton>Kamil </PrimaryButton>;
+    return <MobileButton>Kamil </MobileButton>;
   }
 }
 

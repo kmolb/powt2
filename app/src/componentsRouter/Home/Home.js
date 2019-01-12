@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+const SW_URL = 'https://swapi.co/api/people/?search=r2'
+
 class Home extends Component {  
   constructor(props){
     super(props);
@@ -7,29 +9,51 @@ class Home extends Component {
     this.state = {
       isLoading: true,
       data: null,
+      search: '',
     }
   }
+
   componentDidMount(){
-    fetch("https://randomuser.me/api/")
-    .then((resp) => {
-      return resp.json();
+   this.fetchData();
+  }
+
+  fetchData = () => {
+    this.setState({
+      isLoading: true,
     })
+
+    fetch(SW_URL)
+    .then((resp) => resp.json())
     .then((resp) => {
       this.setState({
-        isLoading:false,
+        isLoading: false,
         data: resp,
       })
-      console.log(resp);
     })
-  } 
+
+  }
+  handleChange = (event) => {
+    const { value, name } = event.target;
+
+    this.setState({
+      [name]: value,
+    })
+  }
 
   render(){
-    const { isLoading, data } = this.state;
-    return <div><h1>Home</h1>
-    {isLoading && <div>Loading</div>}
-    {data && <div>
-      {data.results[0].email}
-    </div>}
+    const { isLoading, data, search } = this.state;
+    return <div>
+      <h1>Home</h1>
+      <form>
+        <input name="search" type="text" value={search} onChange={this.handleChange}/>
+      </form>
+      {isLoading && <div>Loading</div>}
+      {data && data.results.map((person) => {
+        return <div> 
+          {person.name},
+          
+           </div>
+      })}
     </div>
     
    

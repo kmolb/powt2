@@ -1,0 +1,12 @@
+.Button{
+    display: inline-block;
+    padding: 15px;
+}
+
+.primary{
+    background-color: rgb(0, 153, 255);
+}
+
+.error{
+    background-color: rgb(216, 18, 18);
+}

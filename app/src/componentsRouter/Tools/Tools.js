@@ -1,39 +1,28 @@
 import React, { Component } from 'react';
+import on from 'classnames';
 import './Tools.css';
+import classnames from 'classnames';
 
-const matchMobile = (WrappedComponent) => {
+const SW_URL = 'https://swapi.co/api/people/';
+
+const fetchData = () => {
+  return fetch(SW_URL)
+    .then((resp) => {
+      return resp.json();
+    });
+}
+
+fetchData().then((resp) => {console.log('siema', resp)});
+
+const mouseMoveColor = (WrappedComponent) => {
   return class extends Component {
-    constructor(props){
-      super(props)
-      this.state = {
-       offsetY: null,
+        render(){
+          return null;
+        }
       }
     }
    
   
-   componentDidMount(){
-     window.addEventListener('mousemove', ({ offsetY}) => {
-     this.setState({
-     offsetY,
-     });
-     })
-   }
-
-   isTop(){
-    return this.state.offsetY < 300;
-   }
-
-   render(){
-   return<div>{
-     
-    <WrappedComponent type={this.isTop()}>
-      {this.props.children}
-    </WrappedComponent>
-      }</div>
-    } 
-  }
-}
-
 const Button = (props) => {
   const {type} = props
   return <div className={type ? 'ButtonRed' : 'ButtonGreen'}>
@@ -42,7 +31,7 @@ const Button = (props) => {
  </div>
 };
 
-const MobileButton = matchMobile(Button)
+const MobileButton = mouseMoveColor(Button)
 
 class Tools extends Component {
   render() {
